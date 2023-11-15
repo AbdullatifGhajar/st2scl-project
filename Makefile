@@ -31,14 +31,20 @@ stop-db:			## Stop Postgres database
 .PHONY: init-db
 init-db: run-db			## initialize and run Postgres database
 	@echo "Initilizing Postgres database"
+	@sleep 1
+
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db init
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db migrate -m "initial migration"
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db upgrade
+
+	@$(VENV)python3 backend/api.py
+
+	@rm -r migrations
 	
 .PHONY: bash-db
 bash-db:			## Run bash in Postgres database
 	@echo "Running bash in Postgres database"
-	@echo "Use 👉🏻 psql -U postgres -d messenger_db" 
+	@echo "Use 👉 psql -U postgres -d messenger_db" 
 	@docker exec -it $(DB_CONTAINER_NAME) bash
 
 .PHONY: help
