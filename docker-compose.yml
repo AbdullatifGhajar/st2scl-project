@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  postgres:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    image: postgres
+    container_name: ${DB_CONTAINER_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    expose:
+      - ${DB_PORT}

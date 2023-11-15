@@ -1,13 +1,10 @@
+include .env
+
 .ONESHELL:
 VENV_NAME=backend/env
 VENV=$(VENV_NAME)/bin/
 
-ENV_FILE=.env
-
 FLASK_APP=backend/api.py
-
-DB_DOCKER_IMAGE=postgres_image
-DB_DOCKER_CONTAINER=postgres_container
 
 .PHONY: setup
 setup: 				## Create environment and install base packages
@@ -21,16 +18,29 @@ install-requirements:		## Install and update requirements
 	@sudo apt-get install libpq-dev python3.10-dev
 	@$(VENV)pip3 install -r requirements.txt
 
-.PHONY: init-db
-init-db:		## initialize and run Postgres database
+.PHONY: run-db
+run-db:				## Run Postgres database
 	@echo "Running Postgres database"
-	@docker build -t $(DB_DOCKER_IMAGE) database/
-	@docker run --name $(DB_DOCKER_CONTAINER) -d -p 5432:5432 --env-file $(ENV_FILE) $(DB_DOCKER_IMAGE)
+	@docker-compose up -d
 
+.PHONY: stop-db
+stop-db:			## Stop Postgres database
+	@echo "Stopping Postgres database"
+	@docker-compose down
+
+.PHONY: init-db
+init-db: run-db			## initialize and run Postgres database
+	@echo "Initilizing Postgres database"
+	@$(VENV)python3 -m flask --app $(FLASK_APP) db init
+	@$(VENV)python3 -m flask --app $(FLASK_APP) db migrate -m "initial migration"
+	@$(VENV)python3 -m flask --app $(FLASK_APP) db upgrade
+	
 .PHONY: bash-db
-bash-db:		## Run bash in Postgres database
+bash-db:			## Run bash in Postgres database
 	@echo "Running bash in Postgres database"
-	@docker exec -it $(DB_DOCKER_CONTAINER) bash
+	@echo "Use 👉🏻 psql -U postgres -d messenger_db" 
+	@docker exec -it $(DB_CONTAINER_NAME) bash
+
 .PHONY: help
 help:            		## Show the help
 	@echo "TARGETS\n"
