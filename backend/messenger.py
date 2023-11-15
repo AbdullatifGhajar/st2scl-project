@@ -1,4 +1,5 @@
-from .api import Author, Message, app
+from .api import app
+from .models import Author, Message
 
 
 class Contact:
@@ -28,9 +29,3 @@ class Messenger:
             contacts.append(contact)
 
         return contacts
-
-
-if __name__ == "__main__":
-    with app.app_context():
-        messenger = Messenger(Author.query.first())
-        print(messenger.contacts)

@@ -37,7 +37,7 @@ init-db: run-db			## initialize and run Postgres database
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db migrate -m "initial migration"
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db upgrade
 
-	@$(VENV)python3 backend/api.py
+	@$(VENV)python3 -m backend
 
 	@rm -r migrations
 	
