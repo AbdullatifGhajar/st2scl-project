@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"python.defaultInterpreterPath": "env/bin/python",
+		"editor.formatOnSave": true,
+		"isort.args": [
+			"--profile=black"
+		],
+		"[python]": {
+			"editor.codeActionsOnSave": {
+				"source.organizeImports": true
+			},
+			"editor.defaultFormatter": "ms-python.black-formatter"
+		},
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Pythen: Debug Current File in Module",
+				"type": "python",
+				"request": "launch",
+				"module": "${command:extension.commandvariable.file.relativeFileDotsNoExtension}",
+				"console": "integratedTerminal",
+				"justMyCode": true
+			},
+		]
+	},
+}
