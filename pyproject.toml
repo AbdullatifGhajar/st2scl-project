@@ -1,0 +1,32 @@
+[tool.black]
+line-length = 200
+target-version = ["py310"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    | \.git
+    | \.vscode
+    | \.env
+    | \__pycache__
+)/
+'''
+
+[tool.isort]
+profile = "black"
+py_version = 310
+
+[tool.flake8]
+exclude = ".git,__pycache__,debug.py,architectures"
+select = "C,E,F,W,B,B950"
+ignore = "E501, W503"
+extend-ignore = "E203"
+# see https://lintlyci.github.io/Flake8Rules/
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.pycln]
+all = true

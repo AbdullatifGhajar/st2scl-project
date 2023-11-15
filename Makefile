@@ -6,7 +6,7 @@ VENV=$(VENV_NAME)/bin/
 setup: 				## Create environment and install base packages
 	@echo "Creating an virtual env for python"
 	@python3 -m venv $(VENV_NAME)
-	@$(VENV)pip3 install pytest black isort
+	@$(VENV)pip3 install black isort pycln flake8 pyproject-flake8 pytest
 
 .PHONY: install-requirements
 install-requirements:		## Install and update requirements

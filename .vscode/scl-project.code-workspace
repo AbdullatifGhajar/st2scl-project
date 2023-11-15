@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"python.defaultInterpreterPath": "env/bin/python",
+		"python.defaultInterpreterPath": "backend/env/bin/python",
 		"editor.formatOnSave": true,
 		"isort.args": [
 			"--profile=black"
@@ -16,6 +16,9 @@
 			},
 			"editor.defaultFormatter": "ms-python.black-formatter"
 		},
+		"cSpell.words": [
+			"sqlalchemy"
+		],
 	},
 	"launch": {
 		"version": "0.2.0",
