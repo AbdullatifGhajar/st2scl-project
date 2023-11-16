@@ -32,21 +32,12 @@ services:
       - DB_CONTAINER_NAME=${DB_CONTAINER_NAME}
     depends_on:
       - postgres
-  # networks:
-  #   mynetwork:
-  #     driver: bridge
-  # nginx:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   container_name: nginx-container
-  #   ports:
-  #     - "80:80"
-  #   environment:
-  #     - DB_USER=${DB_USER}
-  #     - DB_PASSWORD=${DB_PASSWORD}
-  #     - DB_NAME=${DB_NAME}
-  #     - DB_PORT=${DB_PORT}
-  #     - FLASK_APP=${FLASK_APP}
-  #   depends_on:
-  #     - flask-app
+ 
+  chat-app:
+    build:
+      context: frontend/chat
+    ports:
+      - '3000:3000'
+    container_name: chat-app-container
+    depends_on:
+      - flask-app

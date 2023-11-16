@@ -12,6 +12,8 @@ import {
     Conversation,
     ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
+
+
 const Chat = () => {
     const [author, setAuthor] = useState("Bob"); // TODO: change to current user
     const [messages, setMessages] = useState([]);
