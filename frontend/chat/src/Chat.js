@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
     MainContainer,
@@ -13,31 +13,29 @@ import {
     ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
 const Chat = () => {
-    // Set initial message input value to empty string
+    const [author, setAuthor] = useState("Bob"); // TODO: change to current user
+    const [messages, setMessages] = useState([]);
     const [messageInputValue, setMessageInputValue] = useState("");
 
-    const messages = {
-        "Alice": [
-            {
-                "content": "Hello Bob!",
-                "receiver": "Bob",
-                "sender": "Alice",
-                "timestamp": 1700133515
-            },
-            {
-                "content": "Hello Alice!",
-                "receiver": "Alice",
-                "sender": "Bob",
-                "timestamp": 1700133515
-            },
-            {
-                "content": "How are you?",
-                "receiver": "Bob",
-                "sender": "Alice",
-                "timestamp": 1700133515
-            }
-        ]
-    }
+    useEffect(() => {
+        const fetchMessages = () => {
+            fetch(`http://localhost:8000/get_messages?current_author=${author}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    setMessages(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching messages:', error);
+                });
+        };
+        fetchMessages();
+    }, [author]);
 
     const [selectedConversation, setSelectedConversation] = useState(null);
 
@@ -47,15 +45,17 @@ const Chat = () => {
                 <Sidebar position="left" scrollable={false}>
                     <Search placeholder="Search..." />
                     <ConversationList>
-                        {Object.keys(messages).map((author, index) => (
-                            <Conversation
-                                name={author}
-                                lastSenderName={messages[author][messages[author].length - 1].sender}
-                                info={messages[author][messages[author].length - 1].content}
-                                onClick={() => setSelectedConversation(author)}
-                            >
-                            </Conversation>
-                        ))}
+                        {messages &&
+                            Object.keys(messages).map((author, index) => (
+                                <Conversation
+                                    name={author}
+                                    lastSenderName={messages[author][messages[author].length - 1].sender}
+                                    info={messages[author][messages[author].length - 1].content}
+                                    onClick={() => setSelectedConversation(author)}
+                                >
+                                </Conversation>
+                            ))
+                        }
                     </ConversationList>
                 </Sidebar>
 
