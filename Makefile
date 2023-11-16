@@ -21,7 +21,7 @@ install-requirements:		## Install and update requirements
 .PHONY: run-db
 run-db:				## Run Postgres database
 	@echo "Running Postgres database"
-	@docker-compose up -d
+	@docker-compose up
 
 .PHONY: stop-db
 stop-db:			## Stop Postgres database
@@ -33,13 +33,7 @@ init-db: run-db			## initialize and run Postgres database
 	@echo "Initilizing Postgres database"
 	@sleep 1
 
-	@$(VENV)python3 -m flask --app $(FLASK_APP) db init
-	@$(VENV)python3 -m flask --app $(FLASK_APP) db migrate -m "initial migration"
-	@$(VENV)python3 -m flask --app $(FLASK_APP) db upgrade
-
-	@$(VENV)python3 -m backend.app
-
-	@rm -r migrations
+	# add test data
 	
 .PHONY: bash-db
 bash-db:			## Run bash in Postgres database

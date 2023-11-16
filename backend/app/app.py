@@ -47,6 +47,8 @@ def generate():
     with app.app_context():
         add_testing_data()
 
+    return "Generated"
+
 
 @app.route("/get_messages")
 def get_messages():
