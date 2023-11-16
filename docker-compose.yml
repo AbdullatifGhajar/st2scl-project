@@ -13,5 +13,44 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+    networks:
+      - mynetwork
     expose:
       - ${DB_PORT}
+
+  flask-app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flask-app-container
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_CONTAINER_NAME=${DB_CONTAINER_NAME}
+      - FLASK_APP=${FLASK_APP}
+    networks:
+      - mynetwork
+    expose:
+      - 5000
+  # networks:
+  #   mynetwork:
+  #     driver: bridge
+  # nginx:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   container_name: nginx-container
+  #   ports:
+  #     - "80:80"
+  #   environment:
+  #     - DB_USER=${DB_USER}
+  #     - DB_PASSWORD=${DB_PASSWORD}
+  #     - DB_NAME=${DB_NAME}
+  #     - DB_PORT=${DB_PORT}
+  #     - FLASK_APP=${FLASK_APP}
+  #   depends_on:
+  #     - flask-app

@@ -4,7 +4,7 @@ include .env
 VENV_NAME=backend/env
 VENV=$(VENV_NAME)/bin/
 
-FLASK_APP=backend/api.py
+FLASK_APP=backend/app/app.py
 
 .PHONY: setup
 setup: 				## Create environment and install base packages
@@ -16,7 +16,7 @@ setup: 				## Create environment and install base packages
 install-requirements:		## Install and update requirements
 	@echo "Installing requirements"
 	@sudo apt-get install libpq-dev python3.10-dev
-	@$(VENV)pip3 install -r requirements.txt
+	@$(VENV)pip3 install -r backend/requirements.txt
 
 .PHONY: run-db
 run-db:				## Run Postgres database
@@ -37,7 +37,7 @@ init-db: run-db			## initialize and run Postgres database
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db migrate -m "initial migration"
 	@$(VENV)python3 -m flask --app $(FLASK_APP) db upgrade
 
-	@$(VENV)python3 -m backend
+	@$(VENV)python3 -m backend.app
 
 	@rm -r migrations
 	
