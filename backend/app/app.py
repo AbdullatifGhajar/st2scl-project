@@ -50,8 +50,19 @@ def generate():
 
 @app.route("/get_messages")
 def get_messages():
-    current_author = request.args.get("current_author")
-    messenger = Messenger(current_author)
+    author = request.args.get("author")
+    messenger = Messenger(author)
+
+    return jsonify(messenger.contacts)
+
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    data = request.get_json()
+    
+    sender = data["sender"]
+    messenger = Messenger(sender)
+
+    messenger.send_message(data["receiver"], data["content"])
 
     return jsonify(messenger.contacts)
 

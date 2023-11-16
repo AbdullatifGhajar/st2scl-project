@@ -21,3 +21,7 @@ class Messenger:
             contacts[username] = [m.to_dict() for m in sorted(messages)]
 
         return contacts
+
+    def send_message(self, receiver: str, message: str):
+        Message.add_message(self.author, receiver, message)
+        self.contacts = self.retrieve_messages_grouped_by_other_contact(self.author)

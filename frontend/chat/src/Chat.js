@@ -16,10 +16,11 @@ const Chat = () => {
     const [author, setAuthor] = useState("Bob"); // TODO: change to current user
     const [messages, setMessages] = useState([]);
     const [messageInputValue, setMessageInputValue] = useState("");
+    const [selectedConversation, setSelectedConversation] = useState(null);
 
     useEffect(() => {
         const fetchMessages = () => {
-            fetch(`http://localhost:8000/get_messages?current_author=${author}`)
+            fetch(`http://localhost:8000/get_messages?author=${author}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -27,7 +28,6 @@ const Chat = () => {
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
                     setMessages(data);
                 })
                 .catch(error => {
@@ -37,7 +37,21 @@ const Chat = () => {
         fetchMessages();
     }, [author]);
 
-    const [selectedConversation, setSelectedConversation] = useState(null);
+    function sendMessage() {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sender: author, receiver: selectedConversation, content: messageInputValue })
+        };
+
+        console.log(requestOptions);
+        fetch('http://localhost:8000/send_message', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setMessages(data);
+            });
+    }
 
     return (
         <div style={{ height: "100vh" }}>
@@ -87,7 +101,7 @@ const Chat = () => {
                             placeholder="Type message here"
                             value={messageInputValue}
                             onChange={(val) => setMessageInputValue(val)}
-                            onSend={() => setMessageInputValue("")}
+                            onSend={() => { sendMessage(); setMessageInputValue(""); }}
                             attachButton={false}
                         />
                     </ChatContainer>
