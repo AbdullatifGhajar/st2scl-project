@@ -1,12 +1,13 @@
 FROM cached AS builder
 
+COPY app /app
 WORKDIR /app
 
 COPY requirements.txt /app
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r requirements.txt
 
-COPY . /app
+COPY entrypoint.sh /app
 
 ENTRYPOINT ["./entrypoint.sh"]
 

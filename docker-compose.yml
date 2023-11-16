@@ -18,7 +18,7 @@ services:
 
   flask-app:
     build:
-      context: backend/app
+      context: backend
       target: builder
     stop_signal: SIGINT
     ports:

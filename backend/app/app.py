@@ -41,12 +41,7 @@ def generate():
         Message.add_message("Alice", "Bob", "How are you?")
 
     with app.app_context():
-        try:
-            add_testing_data()
-        except Exception as e:
-            return str(e)
-        finally:
-            return str(Message.query.all())
+        add_testing_data()
 
 
 if __name__ == "__main__":
