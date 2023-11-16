@@ -17,6 +17,11 @@ class Author(db.Model):
         db.session.add(new_author)
         db.session.commit()
 
+    def to_dict(self):
+        return {
+            "username": self.username,
+        }
+
 
 def timestamp_to_string(timestamp):
     return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
@@ -48,3 +53,11 @@ class Message(db.Model):
         new_message = cls(sender, receiver, content)
         db.session.add(new_message)
         db.session.commit()
+
+    def to_dict(self):
+        return {
+            "sender": self.sender,
+            "receiver": self.receiver,
+            "content": self.content,
+            "timestamp": self.timestamp,
+        }

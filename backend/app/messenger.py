@@ -1,30 +1,23 @@
 from .models import Author, Message
 
 
-class Contact:
-    def __init__(self, author: Author, messages: [Message]):
-        self.author = author
-        self.messages = messages
-
-    def __str__(self):
-        return f"{self.author} ({len(self.messages)} messages)"
-
-    def __repr__(self):
-        return self.__str__()
-
-
 class Messenger:
-    def __init__(self, author: Author):
+    def __init__(self, author: str):
         self.author = author
-        self.contacts = self.retrieve_messages_grouped_by_receiver(author)
+        self.contacts = self.retrieve_messages_grouped_by_other_contact(author)
 
-    def retrieve_messages_grouped_by_receiver(self, author: Author):
-        messages = Message.query.filter_by(sender=author.username).all()
-        receivers = set([m.receiver for m in messages])
-        contacts = []
+    def retrieve_messages_grouped_by_other_contact(self, author: str):
+        other_authors = Author.query.filter(Author.username != author).all()
 
-        for receiver in receivers:
-            contact = Contact(receiver, [m for m in messages if m.receiver == receiver])
-            contacts.append(contact)
+        # for every other author, list all messages between them and the current author
+        contacts = {}
+        for other_author in other_authors:
+            username = other_author.username
+            messages = Message.query.filter(
+                (Message.sender == author) | (Message.sender == username),
+                (Message.receiver == author) | (Message.receiver == username),
+            ).all()
+
+            contacts[username] = [m.to_dict() for m in sorted(messages)]
 
         return contacts

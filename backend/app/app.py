@@ -1,9 +1,10 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_migrate import Migrate
 
+from .messenger import Messenger
 from .models import Author, Message, db
 
 app = Flask(__name__)
@@ -42,6 +43,14 @@ def generate():
 
     with app.app_context():
         add_testing_data()
+
+
+@app.route("/get_messages")
+def get_messages():
+    current_author = request.args.get("current_author")
+    messenger = Messenger(current_author)
+
+    return jsonify(messenger.contacts)
 
 
 if __name__ == "__main__":
