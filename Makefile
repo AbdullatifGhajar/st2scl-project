@@ -21,12 +21,12 @@ install-requirements:		## Install and update requirements
 .PHONY: run-db
 run-db:				## Run Postgres database
 	@echo "Running Postgres database"
-	@docker-compose up
+	@docker compose up
 
 .PHONY: stop-db
 stop-db:			## Stop Postgres database
 	@echo "Stopping Postgres database"
-	@docker-compose down
+	@docker compose down
 
 .PHONY: init-db
 init-db: run-db			## initialize and run Postgres database

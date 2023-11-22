@@ -35,7 +35,7 @@ services:
  
   chat-app:
     build:
-      context: frontend/chat
+      context: frontend
     ports:
       - '3000:3000'
     container_name: chat-app-container
