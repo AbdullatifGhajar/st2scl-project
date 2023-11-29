@@ -8,7 +8,13 @@ This project is a simple chat web application. When you run the app, you will be
 
 ## How to Run
 
-Just run make `make run` and the app will be available at `localhost`.
+First make sure you have `Docker` and `Minikube` installed and `Kubernetes` activated on Docker.
+
+First run `run init` to pull images from Docker Hub and create the Kubernetes cluster.
+
+Then run `run start` to start the app.
+
+The app will be available at `localhost`.
 
 ## Technologies Used
 
