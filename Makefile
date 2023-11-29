@@ -5,13 +5,14 @@ init:			## Start and initialize Kubernetes
 
 	@echo "Installing Ingress"
 	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-	@minikube addons enable ingress
 	
 	@echo "Applying Kubernetes config"
 	@kubectl apply -f k8s
 	@kubectl apply -f k8s/database
 	@kubectl apply -f k8s/frontend
 	@kubectl apply -f k8s/backend
+
+	@minikube addons enable ingress
 
 .PHONY: clear
 clear:			## Clear Kubernetes config & Docker images
