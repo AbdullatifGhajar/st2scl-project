@@ -41,6 +41,37 @@ bash-db:			## Run bash in Postgres database
 	@echo "Use 👉 psql -U postgres -d messenger_db" 
 	@docker exec -it $(DB_CONTAINER_NAME) bash
 
+.PHONY: init-k8s
+init-k8s:			## Start and initialize Kubernetes
+	@echo "Starting Kubernetes"
+	@minikube start --driver=docker
+
+	@echo "Loading images"
+	# TODO replace with registry or build images in minikube
+	@minikube image load chat-app-image:latest
+	@minikube image load flask-app-image:latest
+	@minikube image load postgres-image:latest
+
+	@echo "Installing Ingress"
+	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+	@minikube addons enable ingress
+	
+	@echo "Applying Kubernetes config"
+	@kubectl apply -f k8s
+	@kubectl apply -f k8s/frontend
+	@kubectl apply -f k8s/backend
+	@kubectl apply -f k8s/database
+
+.PHONY: clear-k8s
+clear-k8s:			## Clear Kubernetes config
+	@echo "Deleting deployments, services and pods"
+	@kubectl delete deployment --all
+	@kubectl delete statefulset --all
+	@kubectl delete replicaset --all
+	@kubectl delete daemonset --all
+	@kubectl delete job --all
+	@kubectl delete pods --all --all-namespaces
+
 .PHONY: help
 help:            		## Show the help
 	@echo "TARGETS\n"

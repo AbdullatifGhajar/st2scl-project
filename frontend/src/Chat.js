@@ -22,7 +22,7 @@ const Chat = () => {
 
     useEffect(() => {
         const fetchMessages = () => {
-            fetch(`http://localhost:8000/get_messages?author=${author}`)
+            fetch(`/api/get_messages?author=${author}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -47,7 +47,7 @@ const Chat = () => {
         };
 
         console.log(requestOptions);
-        fetch('http://localhost:8000/send_message', requestOptions)
+        fetch('/api/send_message', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
