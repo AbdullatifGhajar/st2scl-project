@@ -46,12 +46,6 @@ init-k8s:			## Start and initialize Kubernetes
 	@echo "Starting Kubernetes"
 	@minikube start --driver=docker
 
-	@echo "Loading images"
-	# TODO replace with registry or build images in minikube
-	@minikube image load chat-app-image:latest
-	@minikube image load flask-app-image:latest
-	@minikube image load postgres-image:latest
-
 	@echo "Installing Ingress"
 	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 	@minikube addons enable ingress

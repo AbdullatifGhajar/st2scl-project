@@ -39,10 +39,21 @@ def generate():
     def add_testing_data():
         Author.add_author("Alice")
         Author.add_author("Bob")
+        Author.add_author("Charlie")
+        Author.add_author("David")
 
         Message.add_message("Alice", "Bob", "Hello Bob!")
         Message.add_message("Bob", "Alice", "Hello Alice!")
         Message.add_message("Alice", "Bob", "How are you?")
+
+        Message.add_message("Bob", "Charlie", "Hello Charlie!")
+        Message.add_message("Charlie", "Bob", "Hello Bob! 😊")
+        Message.add_message("Bob", "Charlie", "How are you?")
+        Message.add_message("Charlie", "Bob", "I'm fine, thanks!")
+
+        Message.add_message("Bob", "David", "Hello David!")
+        Message.add_message("David", "Bob", "Hello Bob!")
+
 
     with app.app_context():
         add_testing_data()

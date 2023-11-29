@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: postgres-image
-          image: postgres-image:latest
-          imagePullPolicy: Never
+          image: abdullatifghajar/st2scl-project-db:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
           resources:
