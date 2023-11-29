@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
     MainContainer,
@@ -7,15 +8,19 @@ import {
     Message,
     MessageInput,
     Sidebar,
-    Search,
+    Button,
     ConversationList,
     Conversation,
     ConversationHeader,
 } from "@chatscope/chat-ui-kit-react";
 
+import "./Chat.css";
+
 
 const Chat = () => {
-    const [author, setAuthor] = useState("Bob"); // TODO: change to current user
+    const userList = ["Alice", "Bob", "Charlie"];
+
+    const [author, setAuthor] = useState(userList[0]);
     const [messages, setMessages] = useState([]);
     const [messageInputValue, setMessageInputValue] = useState("");
     const [selectedConversation, setSelectedConversation] = useState(null);
@@ -55,11 +60,23 @@ const Chat = () => {
             });
     }
 
+
     return (
         <div style={{ height: "100vh" }}>
             <MainContainer responsive>
                 <Sidebar position="left" scrollable={false}>
-                    <Search placeholder="Search..." />
+                    <div className="button-container">
+                        {
+                            userList.map((user) => (
+                                <Button
+                                    className={author === user ? "selected" : ""}
+                                    onClick={() => setAuthor(user)}
+                                >
+                                    {user}
+                                </Button>
+                            ))
+                        }
+                    </div>
                     <ConversationList>
                         {messages &&
                             Object.keys(messages).map((author, index) => (
@@ -85,7 +102,6 @@ const Chat = () => {
                             />
                         </ConversationHeader>
                         <MessageList>
-                            {/* iterate through the messages with currentConverstation. Set direction correcly (depends who is the sender) and all positions to single  */}
                             {messages[selectedConversation].map((message, index) => (
                                 <Message
                                     model={{

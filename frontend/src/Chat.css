@@ -1,0 +1,13 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button-container button {
+    flex-grow: 1;
+    font-weight: normal;
+}
+
+.button-container button.selected {
+    font-weight: bold;
+}
