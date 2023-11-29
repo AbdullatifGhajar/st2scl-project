@@ -70,7 +70,7 @@ const Chat = () => {
                             userList.map((user) => (
                                 <Button
                                     className={author === user ? "selected" : ""}
-                                    onClick={() => setAuthor(user)}
+                                    onClick={() => { setAuthor(user); setSelectedConversation(null); }}
                                 >
                                     {user}
                                 </Button>
@@ -83,7 +83,7 @@ const Chat = () => {
                                 <Conversation
                                     name={author}
                                     lastSenderName={messages[author].length ? messages[author][messages[author].length - 1].sender : "-"}
-                                    info={messages[author].length ? [messages[author].length - 1].content : "-"}
+                                    info={messages[author].length ? messages[messages[author].length - 1].content : "-"}
                                     onClick={() => setSelectedConversation(author)}
                                 >
                                 </Conversation>
