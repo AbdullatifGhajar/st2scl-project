@@ -15,5 +15,3 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 COPY entrypoint.sh /app
 
 ENTRYPOINT ["./entrypoint.sh"]
-
-FROM builder as dev-envs
