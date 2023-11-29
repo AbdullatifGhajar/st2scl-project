@@ -15,7 +15,7 @@ spec:
       containers:
         - name: chat-app
           image: abdullatifghajar/st2scl-project-frontend:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           resources:
             limits:
               cpu: "500m"

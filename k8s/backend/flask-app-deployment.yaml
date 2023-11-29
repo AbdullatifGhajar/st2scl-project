@@ -17,7 +17,7 @@ spec:
       containers:
         - name: flask-app
           image: abdullatifghajar/st2scl-project-backend:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
