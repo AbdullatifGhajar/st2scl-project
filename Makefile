@@ -3,16 +3,15 @@ init:			## Start and initialize Kubernetes
 	@echo "Starting Kubernetes"
 	@minikube start --driver=docker
 
-	@echo "Installing Ingress"
-	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-	
+	@istioctl install --set profile=demo -y
+	# TODO: use custom namespace
+	@kubectl label namespace default istio-injection=enabled
+
 	@echo "Applying Kubernetes config"
 	@kubectl apply -f k8s
 	@kubectl apply -f k8s/database
-	@kubectl apply -f k8s/frontend
+	@kubectl apply -f k8s/frontend	
 	@kubectl apply -f k8s/backend
-
-	@minikube addons enable ingress
 
 .PHONY: clear
 clear:			## Clear Kubernetes config & Docker images
