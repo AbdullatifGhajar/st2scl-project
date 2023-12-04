@@ -51,7 +51,6 @@ const Chat = () => {
             body: JSON.stringify({ sender: author, receiver: selectedConversation, content: messageInputValue })
         };
 
-        console.log(requestOptions);
         fetch('/api/send_message', requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -59,7 +58,6 @@ const Chat = () => {
                 setMessages(data);
             });
     }
-
 
     return (
         <div style={{ height: "100vh" }}>
@@ -93,7 +91,6 @@ const Chat = () => {
                 </Sidebar>
 
                 {selectedConversation &&
-
                     <ChatContainer>
                         <ConversationHeader>
                             <ConversationHeader.Back />
