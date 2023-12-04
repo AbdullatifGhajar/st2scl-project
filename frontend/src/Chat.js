@@ -80,8 +80,6 @@ const Chat = () => {
                             Object.keys(messages).map((author, index) => (
                                 <Conversation
                                     name={author}
-                                    lastSenderName={messages[author].length ? messages[author][messages[author].length - 1].sender : "-"}
-                                    info={messages[author].length ? messages[messages[author].length - 1].content : "-"}
                                     onClick={() => setSelectedConversation(author)}
                                 >
                                 </Conversation>
