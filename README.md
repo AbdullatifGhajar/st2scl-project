@@ -33,10 +33,13 @@ The app will be available at `localhost`.
 ### Deployment
 
 - Docker: every component (frontend, backend, database) is run in a Docker container published on Docker Hub
-- Kubernetes
+- Kubernetes: every component is deployed as a Kubernetes service in it's own pod. In an early version I used ingress as a gateway, but later switched to a service mesh.
+- Service Mesh: defines a gateway for the frontend and backend services. The gateway forwards all paths starting with `\api` to the backend service and all other paths to the frontend service.
 
 ### CI
 
 - Github Actions: CI pipeline for building and publishing Docker images. So pushing changes to main will trigger github to update the Docker images on Docker Hub.
 
 ## Architecture
+
+
