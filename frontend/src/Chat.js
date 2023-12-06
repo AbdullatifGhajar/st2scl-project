@@ -9,13 +9,19 @@ import {
     MessageInput,
     Sidebar,
     Button,
+    Avatar,
     ConversationList,
     Conversation,
     ConversationHeader,
+    Search,
+    VoiceCallButton,
+    VideoCallButton,
+    InfoButton,
 } from "@chatscope/chat-ui-kit-react";
 
 import "./Chat.css";
 
+const mockAvatar = <Avatar src={"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} />;
 
 const Chat = () => {
     const userList = ["Alice", "Bob", "Charlie"];
@@ -44,7 +50,7 @@ const Chat = () => {
         fetchMessages();
     }, [author]);
 
-    function sendMessage() {
+    const sendMessage = () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -58,6 +64,12 @@ const Chat = () => {
                 setMessages(data);
             });
     }
+
+    const mockLastSeen = (author) => {
+        // return the sum of all letters in the author's name
+        return author.split("").reduce((acc, curr) => acc + curr.charCodeAt(0), 0) % 24 + 1;
+    }
+
 
     return (
         <div style={{ height: "100vh" }}>
@@ -75,13 +87,17 @@ const Chat = () => {
                             ))
                         }
                     </div>
+                    <Search placeholder="Search" />
                     <ConversationList>
                         {messages &&
                             Object.keys(messages).map((author, index) => (
                                 <Conversation
                                     name={author}
+                                    info={messages[author].length !== 0 ? messages[author][messages[author].length - 1].content : ""}
                                     onClick={() => setSelectedConversation(author)}
+                                    lastActivityTime={`${mockLastSeen(author)}h`}
                                 >
+                                    {mockAvatar}
                                 </Conversation>
                             ))
                         }
@@ -92,9 +108,17 @@ const Chat = () => {
                     <ChatContainer>
                         <ConversationHeader>
                             <ConversationHeader.Back />
+                            {mockAvatar}
                             <ConversationHeader.Content
                                 userName={selectedConversation}
+                                info={`Last seen online ${mockLastSeen(selectedConversation)} hours ago`}
                             />
+                            <ConversationHeader.Actions>
+                                <VoiceCallButton />
+                                <VideoCallButton />
+                                <InfoButton />
+                            </ConversationHeader.Actions>
+
                         </ConversationHeader>
                         <MessageList>
                             {messages[selectedConversation].map((message, index) => (
@@ -115,7 +139,7 @@ const Chat = () => {
                             value={messageInputValue}
                             onChange={(val) => setMessageInputValue(val)}
                             onSend={() => { sendMessage(); setMessageInputValue(""); }}
-                            attachButton={false}
+                            attachButton={true}
                         />
                     </ChatContainer>
                 }
