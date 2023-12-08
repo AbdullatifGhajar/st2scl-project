@@ -1,25 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app-deployment
-  labels:
-    app: flask-app
+  name: {{ .Values.flaskAppDeployment.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.flaskAppDeployment.replicas }}
   selector:
     matchLabels:
-      app: flask-app
+      app: {{ .Values.flaskAppDeployment.app }}
   template:
     metadata:
       labels:
-        app: flask-app
+        app: {{ .Values.flaskAppDeployment.app }}
     spec:
       containers:
-        - name: flask-app
-          image: abdullatifghajar/st2scl-project-backend:latest
-          imagePullPolicy: Always
+        - name: {{ .Values.flaskAppDeployment.containerName }}
+          image: {{ .Values.flaskAppDeployment.image }}
+          imagePullPolicy: {{ .Values.flaskAppDeployment.pullPolicy }}
           ports:
-            - containerPort: 8000
+            - containerPort: {{ .Values.flaskAppDeployment.containerPort }}
           env:
             - name: DB_USER
               valueFrom:

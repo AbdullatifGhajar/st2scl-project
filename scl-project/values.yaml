@@ -1,0 +1,87 @@
+replicaCount: 1
+service:
+  type: ClusterIP
+  port: 80
+secret:
+  name: secret
+  username: postgres
+  password: sd37J34k2.sk2F
+configmap:
+  name: app-config
+  DB_NAME: messenger_db
+  DB_PORT: 5432
+  DB_CONTAINER_NAME: db_container
+flaskAppVirtualservice:
+  name: flask-app-virtualservice
+  gateway: gateway
+  host: flask-app
+  port: 80
+flaskAppDeployment:
+  name: flask-app-deployment
+  replicas: 1
+  app: flask-app
+  containerName: flask-app
+  image: abdullatifghajar/st2scl-project-backend:latest
+  imagePullPolicy: Always
+  containerPort: 8000
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+flaskAppService:
+  name: flask-app
+  app: flask-app
+  port: 80
+  targetPort: 8000
+gateway:
+  name: gateway
+  selector: ingressgateway
+  port:
+    number: 80
+    name: http
+    protocol: HTTP
+postgresService:
+  name: postgres
+  app: postgres
+  port: 5432
+  targetPort: 5432
+postgresDeployment:
+  name: postgres-deployment
+  replicas: 1
+  app: postgres
+  containerName: postgres-image
+  image: abdullatifghajar/st2scl-project-db:latest
+  imagePullPolicy: Always
+  containerPort: 5432
+  limits:
+    cpu: "1"
+    memory: "1Gi"
+  requests:
+    cpu: "0.5"
+    memory: "512Mi"
+chatAppDeployment:
+  name: chat-app-deployment
+  replicas: 1
+  app: chat-app
+  containerName: chat-app
+  image: abdullatifghajar/st2scl-project-frontend:latest
+  imagePullPolicy: Always
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  containerPort: 3000
+chatAppVirtualservice:
+  name: chat-app-virtualservice
+  gateway: gateway
+  host: chat-app
+  port: 80
+chatAppService:
+  name: chat-app
+  app: chat-app
+  port: 80
+  targetPort: 3000

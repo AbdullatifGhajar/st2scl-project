@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Values.flaskAppVirtualservice.name }}
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - {{ .Values.flaskAppVirtualservice.gateway }}
+  http:
+    - match:
+        - uri:
+            prefix: "/api"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: {{ .Values.flaskAppVirtualservice.host }}
+            port:
+              number: {{ .Values.flaskAppVirtualservice.port }}

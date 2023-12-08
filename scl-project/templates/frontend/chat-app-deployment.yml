@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.chatAppDeployment.name }}
+spec:
+  replicas: {{ .Values.chatAppDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.chatAppDeployment.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.chatAppDeployment.app }}
+    spec:
+      containers:
+        - name: {{ .Values.chatAppDeployment.containerName }}
+          image: {{ .Values.chatAppDeployment.image }}
+          imagePullPolicy: {{ .Values.chatAppDeployment.imagePullPolicy }}
+          resources:
+            limits:
+              cpu: {{ .Values.chatAppDeployment.limits.cpu }}
+              memory: {{ .Values.chatAppDeployment.limits.memory }}
+            requests:
+              cpu: {{ .Values.chatAppDeployment.requests.cpu }}
+              memory: {{ .Values.chatAppDeployment.requests.memory }}
+          ports:
+            - containerPort: {{ .Values.chatAppDeployment.containerPort }}

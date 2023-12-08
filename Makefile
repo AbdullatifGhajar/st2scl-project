@@ -1,17 +1,13 @@
 .PHONY: init
 init:			## Start and initialize Kubernetes
 	@echo "Starting Kubernetes"
-	@minikube start --driver=docker
+	@minikube start --driver=docker --memory=2000 --cpus=2
 
-	@istioctl install --set profile=demo -y
+	@istioctl install --set profile=default -y
 	# TODO: use custom namespace
 	@kubectl label namespace default istio-injection=enabled
 
-	@echo "Applying Kubernetes config"
-	@kubectl apply -f k8s
-	@kubectl apply -f k8s/database
-	@kubectl apply -f k8s/frontend	
-	@kubectl apply -f k8s/backend
+	@helm install scl-project --generate-name
 
 .PHONY: clear
 clear:			## Clear Kubernetes config & Docker images
@@ -21,12 +17,12 @@ clear:			## Clear Kubernetes config & Docker images
 	@kubectl delete replicaset --all
 	@kubectl delete daemonset --all
 	@kubectl delete job --all
-	@kubectl delete pods --all --all-namespaces
-
-	@echo "Deleting docker images from Minikube"
-	@minikube image rm abdullatifghajar/st2scl-project-frontend:latest
-	@minikube image rm abdullatifghajar/st2scl-project-backend:latest
-	@minikube image rm abdullatifghajar/st2scl-project-db:latest
+	@kubectl delete pods --all
+	@kubectl delete services --all
+	@kubectl delete virtualservices --all
+	@kubectl delete secrets --all
+	@kubectl delete gateways --all
+	@kubectl delete configmaps --all
 
 .PHONY: run
 run:				## Run the application

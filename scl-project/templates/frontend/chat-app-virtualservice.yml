@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Values.chatAppVirtualservice.name }}
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - {{ .Values.chatAppVirtualservice.gateway }}
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: {{ .Values.chatAppVirtualservice.host }}
+            port:
+              number: {{ .Values.chatAppVirtualservice.port }}
