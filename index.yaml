@@ -1,3 +1,14 @@
 apiVersion: v1
-entries: {}
-generated: "2023-12-09T11:31:05.188599154+01:00"
+entries:
+  scl-project:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-12-09T11:56:14.873063561+01:00"
+    description: A Helm chart for SCL project
+    digest: 87de031009997101a0cb3d2245b6c21d7f3d304ba7b061b9bf34fb229601f672
+    name: scl-project
+    type: application
+    urls:
+    - https://AbdullatifGhajar.github.io/st2scl-project/scl-project-1.0.0.tgz
+    version: 1.0.0
+generated: "2023-12-09T11:56:14.871835675+01:00"
