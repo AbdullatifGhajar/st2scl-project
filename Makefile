@@ -29,6 +29,15 @@ run:				## Run the application
 	@echo "Running the application"
 	minikube tunnel
 
+.PHONY: helm-install
+helm-install:		## Install and run the application with Helm
+	@echo "Adding repo"
+	@helm repo add st2scl-project https://AbdullatifGhajar.github.io/st2scl-project
+	@helm repo update
+	
+	@echo "Installing the application"
+	@helm install scl-project st2scl-project/scl-project
+
 .PHONY: help
 help:            		## Show the help
 	@echo "TARGETS\n"
