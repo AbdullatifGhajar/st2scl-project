@@ -5,17 +5,15 @@ init:			## Start and initialize Kubernetes
 	@echo "Starting Minikube"
 	@minikube start --driver=docker --memory=2000 --cpus=2
 
-	@echo "Creating namespace $(KUBERNETES_NAMESPACE)"
-	@kubectl create namespace $(KUBERNETES_NAMESPACE)
-
 	@echo "Setting update Istio"
 	@istioctl install --set profile=default -y
-	@kubectl label namespace $(KUBERNETES_NAMESPACE) istio-injection=enabled
 	
-	@helm install scl-project --generate-name --namespace $(KUBERNETES_NAMESPACE)
+	@helm install scl-project --generate-name --namespace $(KUBERNETES_NAMESPACE) --create-namespace
+
+	@kubectl label namespace $(KUBERNETES_NAMESPACE) istio-injection=enabled
 
 .PHONY: clear
-clear:			## Clear Kubernetes config & Docker images
+clear:			## Clear Kubernetes config
 	@echo "Delete namespace $(KUBERNETES_NAMESPACE)"
 	@kubectl delete namespace $(KUBERNETES_NAMESPACE)
 
