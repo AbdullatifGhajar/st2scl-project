@@ -1,31 +1,26 @@
+KUBERNETES_NAMESPACE=scl-project
+
 .PHONY: init
 init:			## Start and initialize Kubernetes
-	@echo "Starting Kubernetes"
+	@echo "Starting Minikube"
 	@minikube start --driver=docker --memory=2000 --cpus=2
 
-	@istioctl install --set profile=default -y
-	# TODO: use custom namespace
-	@kubectl label namespace default istio-injection=enabled
+	@echo "Creating namespace $(KUBERNETES_NAMESPACE)"
+	@kubectl create namespace $(KUBERNETES_NAMESPACE)
 
-	@helm install scl-project --generate-name
+	@echo "Setting update Istio"
+	@istioctl install --set profile=default -y
+	@kubectl label namespace $(KUBERNETES_NAMESPACE) istio-injection=enabled
+	
+	@helm install scl-project --generate-name --namespace $(KUBERNETES_NAMESPACE)
 
 .PHONY: clear
 clear:			## Clear Kubernetes config & Docker images
-	@echo "Deleting deployments, services and pods"
-	@kubectl delete deployment --all
-	@kubectl delete statefulset --all
-	@kubectl delete replicaset --all
-	@kubectl delete daemonset --all
-	@kubectl delete job --all
-	@kubectl delete pods --all
-	@kubectl delete services --all
-	@kubectl delete virtualservices --all
-	@kubectl delete secrets --all
-	@kubectl delete gateways --all
-	@kubectl delete configmaps --all
+	@echo "Delete namespace $(KUBERNETES_NAMESPACE)"
+	@kubectl delete namespace $(KUBERNETES_NAMESPACE)
 
 .PHONY: run
-run:				## Run the application
+run:			## Run the application
 	@echo "Running the application"
 	minikube tunnel
 
@@ -35,10 +30,10 @@ helm-install:		## Install and run the application with Helm
 	@helm repo add st2scl-project https://AbdullatifGhajar.github.io/st2scl-project
 	@helm repo update
 	
-	@echo "Installing the application"
-	@helm install scl-project st2scl-project/scl-project
+	@echo "Installing the application in namespace $(KUBERNETES_NAMESPACE)"
+	@helm install scl-project st2scl-project/scl-project --namespace $(KUBERNETES_NAMESPACE)
 
 .PHONY: help
-help:            		## Show the help
+help:            	## Show the help
 	@echo "TARGETS\n"
 	@fgrep "##" Makefile | fgrep -v fgrep
