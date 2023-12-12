@@ -5,8 +5,10 @@ init:			## Start and initialize Kubernetes
 	@echo "Starting Minikube"
 	@minikube start --driver=docker --memory=2000 --cpus=2
 
-	@echo "Setting update Istio"
-	@istioctl install --set profile=default -y
+	@echo "Setting up Istio (Servce Mesh)"
+	@curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.0 sh -
+	@mv istio-1.20.0 istio /tmp
+	@/tmp/istio-1.20.0/bin/istioctl install --set profile=default -y
 	
 	@helm install scl-project --generate-name --namespace $(KUBERNETES_NAMESPACE) --create-namespace
 
