@@ -34,9 +34,6 @@ helm-install:		## Install Helm & Add repo
 	@echo "Adding repo"
 	@helm repo add st2scl-project https://AbdullatifGhajar.github.io/st2scl-project
 	@helm repo update
-	
-	@echo "Installing the application in namespace $(KUBERNETES_NAMESPACE)"
-	@helm install scl-project st2scl-project/scl-project --namespace $(KUBERNETES_NAMESPACE)
 
 .PHONY: help
 help:            	## Show the help
