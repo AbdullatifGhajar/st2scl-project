@@ -9,9 +9,8 @@ init:			## Start and initialize Kubernetes
 	@curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.0 sh -
 	@mv istio-1.20.0 /tmp
 	@/tmp/istio-1.20.0/bin/istioctl install --set profile=default -y
-	
-	@helm install scl-project --generate-name --namespace $(KUBERNETES_NAMESPACE) --create-namespace
 
+	@helm install scl-project st2scl-project/scl-project --namespace $(KUBERNETES_NAMESPACE) --create-namespace
 	@kubectl label namespace $(KUBERNETES_NAMESPACE) istio-injection=enabled
 
 .PHONY: clear
