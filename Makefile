@@ -7,7 +7,7 @@ init:			## Start and initialize Kubernetes
 
 	@echo "Setting up Istio (Servce Mesh)"
 	@curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.0 sh -
-	@mv istio-1.20.0 istio /tmp
+	@mv istio-1.20.0 /tmp
 	@/tmp/istio-1.20.0/bin/istioctl install --set profile=default -y
 	
 	@helm install scl-project --generate-name --namespace $(KUBERNETES_NAMESPACE) --create-namespace
