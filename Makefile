@@ -14,9 +14,9 @@ init:			## Start and initialize Kubernetes
 	@kubectl label namespace $(KUBERNETES_NAMESPACE) istio-injection=enabled
 
 .PHONY: clear
-clear:			## Clear Kubernetes config
-	@echo "Delete namespace $(KUBERNETES_NAMESPACE)"
-	@kubectl delete namespace $(KUBERNETES_NAMESPACE)
+clear:			## Clear project
+	@echo "Delete Helm chart in namespace $(KUBERNETES_NAMESPACE)"
+	@helm uninstall scl-project --namespace $(KUBERNETES_NAMESPACE)
 
 .PHONY: run
 run:			## Run the application
