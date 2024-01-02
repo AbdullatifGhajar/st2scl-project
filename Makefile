@@ -28,7 +28,8 @@ install-helm:		## Install Helm & Add repo
 	@echo "Installing Helm"
 	@curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 	@chmod 700 get_helm.sh
-	@./get_helm.sh
+	@mv get_helm.sh /tmp/get_helm.sh
+	@/tmp/get_helm.sh
 	
 	@echo "Adding repo"
 	@helm repo add st2scl-project https://AbdullatifGhajar.github.io/st2scl-project
