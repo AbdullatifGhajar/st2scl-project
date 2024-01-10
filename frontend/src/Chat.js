@@ -21,7 +21,7 @@ import {
 
 import "./Chat.css";
 
-const mockAvatar = <Avatar src={"https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"} />;
+export const mockAvatar = <Avatar src={"images/mock-profile.png"} />;
 
 const Chat = () => {
     const userList = ["Alice", "Bob", "Charlie"];
